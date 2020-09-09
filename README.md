@@ -1,5 +1,5 @@
 # NOTICE
-*4/16/2018 - This application is no longer maintained.  Feel free to fork and update this application as needed.*
+*4/16/2018 - The application is no longer maintained. I made this fork in Sept. 2020 to reflect some of the updates I had made since the original maintenance had stopped*
 
 ---
 
