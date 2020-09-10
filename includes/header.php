@@ -53,20 +53,23 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 								<!--li><a href="teams.php">Teams</a></li-->
 								<!--li><a href="schedules.php">Schedules</a></li-->
 								<?php if ($_SESSION['logged'] === 'yes' && $user->is_admin) { ?>
+								<li><a href="http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef">Auto-Update Scores</a></li>
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><a href="scores.php">Enter Scores</a></li>
+										<li><a href="http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef">Auto-Update Scores</a></li>
 										<li><a href="send_email.php">Send Email</a></li>
 										<li><a href="users.php">Update Users</a></li>
 										<li><a href="schedule_edit.php">Edit Schedule</a></li>
+										<li><a href="edit_picks.php">Edit Picks</a></li>
 										<li><a href="email_templates.php">Email Templates</a></li>
 									</ul>
 								</li>
 								<?php } ?>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
-								<li><a href="rules.php" title="Rules/Help"><span class="glyphicon glyphicon-book"></span> <span class="text">Rules/Help</span></a></li>
+								<!-- <li><a href="rules.php" title="Rules/Help"><span class="glyphicon glyphicon-book"></span> <span class="text">Rules/Help</span></a></li> -->
 								<li class="dropdown">
 									<!--a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $_SESSION['loggedInUser']; ?> <b class="caret"></b></a-->
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <span class="text"><?php echo $_SESSION['loggedInUser']; ?></span> <b class="caret"></b></a>

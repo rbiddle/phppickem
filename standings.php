@@ -48,7 +48,7 @@ if (isset($weekStats)) {
 <h2>User Stats</h2>
 <div class="row">
 	<div class="col-md-4 col-xs-12">
-		<b>By Name</b><br />
+		<b>By Last Name</b><br />
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr><th align="left">Player</th><th align="left">Wins</th><th>Pick Ratio</th></tr>

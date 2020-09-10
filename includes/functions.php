@@ -3,7 +3,8 @@
 function getCurrentWeek() {
 	//get the current week number
 	global $mysqli;
-	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) < gameTimeEastern order by weekNum limit 1";
+	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) < DATE_ADD(gameTimeEastern, INTERVAL 12 HOUR) order by weekNum limit 1";
+	//die($sql);
 	$query = $mysqli->query($sql);
 	if ($query->num_rows > 0) {
 		$row = $query->fetch_assoc();
@@ -24,7 +25,8 @@ function getCurrentWeek() {
 function getCutoffDateTime($week) {
 	//get the cutoff date for a given week
 	global $mysqli;
-	$sql = "select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = " . $week . " and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1;";
+//	$sql = "select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = " . $week . " and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1;";
+	$sql = "select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = " . $week . " order by gameTimeEastern DESC limit 1;";
 	$query = $mysqli->query($sql);
 	if ($query->num_rows > 0) {
 		$row = $query->fetch_assoc();
@@ -333,12 +335,12 @@ function getTeamRecord($teamID) {
 
 	$sql = "select weekNum, (homeScore > visitorScore) as gameWon, (homeScore = visitorScore) as gameTied ";
 	$sql .= "from " . DB_PREFIX . "schedule ";
-	$sql .= "where (homeScore not in(null, '0') and visitorScore not in(null, '0'))";
+	$sql .= "where final = 1";
 	$sql .= " and homeID = '" . $teamID . "' ";
 	$sql .= "union ";
 	$sql .= "select weekNum, (homeScore < visitorScore) as gameWon, (homeScore = visitorScore) as gameTied ";
 	$sql .= "from " . DB_PREFIX . "schedule ";
-	$sql .= "where (homeScore not in(null, '0') and visitorScore not in(null, '0'))";
+	$sql .= "where final = 1";
 	$sql .= " and visitorID = '" . $teamID . "' ";
 	$sql .= "order by weekNum";
 	//echo $sql;
@@ -368,12 +370,12 @@ function getTeamStreak($teamID) {
 
 	$sql = "select weekNum, (homeScore > visitorScore) as gameWon, (homeScore = visitorScore) as gameTied ";
 	$sql .= "from " . DB_PREFIX . "schedule ";
-	$sql .= "where (homeScore not in(null, '0') and visitorScore not in(null, '0'))";
+	$sql .= "where final = 1";
 	$sql .= " and homeID = '" . $teamID . "' ";
 	$sql .= "union ";
 	$sql .= "select weekNum, (homeScore < visitorScore) as gameWon, (homeScore = visitorScore) as gameTied ";
 	$sql .= "from " . DB_PREFIX . "schedule ";
-	$sql .= "where (homeScore not in(null, '0') and visitorScore not in(null, '0'))";
+	$sql .= "where final = 1";
 	$sql .= " and visitorID = '" . $teamID . "' ";
 	$sql .= "order by weekNum";
 	//echo $sql;

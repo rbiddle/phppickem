@@ -62,7 +62,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 				echo '<p><a href="signup.php">Click here to sign up for an account</a></p>';
 			}
 			?>
-			<p>Having trouble logging in?  Click here to <a href="password_reset.php">reset your password</a>.</p>
+			<p>Having trouble logging in?  Click here to <a href="password_reset.php">reset your password</a> (check your spam).</p>
 		</form>
 
     </div> <!-- /container -->

@@ -167,13 +167,19 @@ include('includes/column_right.php');
 			if (!empty($homeScore) || !empty($visitorScore)) {
 				//if score is entered, show score
 				$scoreEntered = true;
+				$homeScore = (int)$row['homeScore'];
+				$visitorScore = (int)$row['visitorScore'];
 				if ($homeScore > $visitorScore) {
 					$winnerID = $row['homeID'];
 				} else if ($visitorScore > $homeScore) {
 					$winnerID = $row['visitorID'];
 				};
 				//$winnerID will be null if tie, which is ok
-				echo '					<div class="col-xs-12 center"><b>Final: ' . $row['visitorScore'] . ' - ' . $row['homeScore'] . '</b></div>' . "\n";
+				if ($row['final'] == 1) {
+					echo '					<div class="col-xs-12 center"><b>Final: ' . $row['visitorScore'] . ' - ' . $row['homeScore'] . '</b></div>' . "\n";
+				} else {
+					echo '					<div class="col-xs-12 center"><b>Score: ' . $row['visitorScore'] . ' - ' . $row['homeScore'] . '</b></div>' . "\n";
+				}
 			} else {
 				//else show time of game
 				echo '					<div class="col-xs-12 center">' . date('D n/j g:i a', strtotime($row['gameTimeEastern'])) . ' ET</div>' . "\n";
@@ -258,7 +264,7 @@ include('includes/column_right.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-		echo '<p class="noprint"><input type="checkbox" name="showPicks" id="showPicks" value="1"' . (($showPicks) ? ' checked="checked"' : '') . ' /> <label for="showPicks">Allow others to see my picks</label></p>' . "\n";
+		echo '<p class="noprint"><input type="checkbox" name="showPicks" id="showPicks" disabled value="0"' . (($showPicks) ? '' : '') . ' /> <label for="showPicks">Allow others to see my picks</label></p>' . "\n";
 		echo '<p class="noprint"><input type="submit" name="action" value="Submit" /></p>' . "\n";
 		echo '</form>' . "\n";
 	}

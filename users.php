@@ -55,6 +55,8 @@ switch ($action) {
 		$email = $_POST['email'];
 		$userName = $_POST['userName'];
 		$userID = (int)$_POST['userID'];
+		$password = $_POST['password'];
+		$password2 = $_POST['password2'];
 
 		$my_form = new validator;
 		if($my_form->checkEmail($_POST['email'])) { // check for good mail
@@ -66,11 +68,17 @@ switch ($action) {
 				$mysqli->query($sql) or die('error updating user');
 
 				$display = '<div class="responseOk">User ' . $userName . ' Updated</div><br/>';
-				/*
-				if ($_POST['password'] == $_POST['password2']) {
+				
+				if ((strlen($password) > 0) && ($password == $password2)) {
+					// update password
+					$salt = substr($crypto->encrypt((uniqid(mt_rand(), true))), 0, 10);
+					$secure_password = $crypto->encrypt($salt . $crypto->encrypt($password));
+					$sql = "UPDATE " . DB_PREFIX . "users SET password='".$secure_password."', salt='".$salt."' WHERE userID = " . $userID . ";";
+					$mysqli->query($sql) or die($mysqli->error);
+					$display .= '<div class="responseOk">User ' . $userName . ' Password Updated, '.$password.', '.$salt.', '.$secure_password.'</div><br/>';					
 				} else {
-					$display = '<div class="responseError">Passwords do not match, please try again.</div><br/>';
-				}*/
+					$display .= '<div class="responseError">Passwords do not match, please try again.</div><br/>';
+				}
 			} else {
 				$display = '<div class="responseError">' . $my_form->error . '</div><br/>';
 			}
@@ -133,13 +141,11 @@ if ($action == 'add' || $action == 'edit') {
 <p>User Name:<br />
 <input type="text" name="userName" value="<?php echo $userName; ?>"></p>
 
-<?php if ($action == 'add') { ?>
 <p>Password:<br />
 <input type="password" name="password" value=""></p>
 
 <p>Confirm Password:<br />
 <input type="password" name="password2" value=""></p>
-<?php } ?>
 
 <p><input type="submit" name="action" value="Submit" class="btn btn-info" /></p>
 </form>

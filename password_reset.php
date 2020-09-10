@@ -30,7 +30,7 @@ if (is_array($_POST) && sizeof($_POST) > 0) {
 		$mail->Subject = 'NFL Pick \'Em Password'; // the subject of email
 
 		// html text block
-		$msg = '<p>Your new password for NFL Pick \'Em has been generated.  Your username is: ' . $result['userName'] . '</p>' . "\n\n";
+		$msg = '<p>Your new password for NFL Pick \'Em has been generated.  Your username is: ' . $row['userName'] . '</p>' . "\n\n";
 		$msg .= '<p>Your new password is: ' . $password . '</p>' . "\n\n";
 		$msg .= '<a href="' . SITE_URL . 'login.php">Click here to sign in</a>.</p>';
 
