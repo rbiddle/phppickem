@@ -264,7 +264,11 @@ include('includes/column_right.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-		echo '<p class="noprint"><input type="checkbox" name="showPicks" id="showPicks" disabled value="0"' . (($showPicks) ? '' : '') . ' /> <label for="showPicks">Allow others to see my picks</label></p>' . "\n";
+		if (ALWAYS_HIDE_PICKS) {
+			echo '<p class="noprint"><input type="hidden" name="showPicks" id="showPicks" value="0"' . (($showPicks) ? ' checked="checked"' : '') . ' /> <label for="showPicks">' . "\n";
+		} else {
+			echo '<p class="noprint"><input type="checkbox" name="showPicks" id="showPicks" value="1"' . (($showPicks) ? ' checked="checked"' : '') . ' /> <label for="showPicks">Allow others to see my picks</label></p>' . "\n";
+		}
 		echo '<p class="noprint"><input type="submit" name="action" value="Submit" /></p>' . "\n";
 		echo '</form>' . "\n";
 	}

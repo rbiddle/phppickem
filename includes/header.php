@@ -7,11 +7,11 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>NFL Pick 'Em <?php echo SEASON_YEAR; ?></title>
-
+	<title><?php echo SITE_NAME . ' ' . SEASON_YEAR; ?></title>
 	<base href="<?php echo SITE_URL; ?>" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/all.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="css/custom.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/jquery.countdown.css" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
@@ -52,6 +52,14 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 								<li><a href="standings.php">Standings</a></li>
 								<!--li><a href="teams.php">Teams</a></li-->
 								<!--li><a href="schedules.php">Schedules</a></li-->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">NFL News <b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><a href="nflnews.php">News</a></li>
+										<li><a href="teams.php">Teams</a></li>
+										<li><a href="schedules.php">Schedules</a></li>
+									</ul>
+								</li>
 								<?php if ($_SESSION['logged'] === 'yes' && $user->is_admin) { ?>
 								<li><a href="http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef">Auto-Update Scores</a></li>
 								<li class="dropdown">
@@ -69,7 +77,7 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 								<?php } ?>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
-								<!-- <li><a href="rules.php" title="Rules/Help"><span class="glyphicon glyphicon-book"></span> <span class="text">Rules/Help</span></a></li> -->
+								<li><a href="rules.php" title="Rules/Help"><span class="glyphicon glyphicon-book"></span> <span class="text">Rules/Help</span></a></li>
 								<li class="dropdown">
 									<!--a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $_SESSION['loggedInUser']; ?> <b class="caret"></b></a-->
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <span class="text"><?php echo $_SESSION['loggedInUser']; ?></span> <b class="caret"></b></a>

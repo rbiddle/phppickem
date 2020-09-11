@@ -10,7 +10,8 @@ if (!ALLOW_SIGNUP) {
 if (isset($_POST['submit'])) {
 
 	$my_form = new validator;
-	$mail = new PHPMailer();
+	// $mail = new PHPMailer();
+	setupMailer();
 
 	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
@@ -53,7 +54,8 @@ if (isset($_POST['submit'])) {
 						$mail->Body = '<p>Thank you for signing up for the NFL Pick \'Em Pool.  Please click the below link to confirm your account:<br />' . "\n" .
 							SITE_URL . 'signup.php?confirm=' . $crypto->encrypt($username) . '</p>';
 
-						//$mail->Send();
+						// $mail->Send();
+						$mail->send();
 
 						//header('Location: login.php');
 						//exit;

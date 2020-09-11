@@ -1,10 +1,10 @@
 <?php
 // functions.php
-function getCurrentWeek() {
+function getCurrentWeek()
+{
 	//get the current week number
 	global $mysqli;
-	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) < DATE_ADD(gameTimeEastern, INTERVAL 12 HOUR) order by weekNum limit 1";
-	//die($sql);
+	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) < gameTimeEastern order by weekNum limit 1";
 	$query = $mysqli->query($sql);
 	if ($query->num_rows > 0) {
 		$row = $query->fetch_assoc();
@@ -22,7 +22,22 @@ function getCurrentWeek() {
 	die('Error getting current week: ' . $mysqli->error);
 }
 
-function getCutoffDateTime($week) {
+function setupMailer()
+{
+	global $mail;
+	$mail = new PHPMailer();
+	$mail->isSMTP();
+	$mail->SMTPAuth = true;
+	$mail->Host = EMAIL_HOST;
+	$mail->Port = EMAIL_PORT;
+	$mail->Username = EMAIL_USERNAME;
+	$mail->Password = EMAIL_PASSWORD;
+
+	$mail->IsHTML(true);
+}
+
+function getCutoffDateTime($week)
+{
 	//get the cutoff date for a given week
 	global $mysqli;
 //	$sql = "select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = " . $week . " and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1;";
@@ -36,7 +51,8 @@ function getCutoffDateTime($week) {
 	die('Error getting cutoff date: ' . $mysqli->error);
 }
 
-function getFirstGameTime($week) {
+function getFirstGameTime($week)
+{
 	//get the first game time for a given week
 	global $mysqli;
 	$sql = "select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = " . $week . " order by gameTimeEastern limit 1";
@@ -49,7 +65,8 @@ function getFirstGameTime($week) {
 	die('Error getting first game time: ' . $mysqli->error);
 }
 
-function getPickID($gameID, $userID) {
+function getPickID($gameID, $userID)
+{
 	//get the pick id for a particular game
 	global $mysqli;
 	$sql = "select pickID from " . DB_PREFIX . "picks where gameID = " . $gameID . " and userID = " . $userID;
@@ -64,7 +81,8 @@ function getPickID($gameID, $userID) {
 	die('Error getting pick id: ' . $mysqli->error);
 }
 
-function getGameIDByTeamName($week, $teamName) {
+function getGameIDByTeamName($week, $teamName)
+{
 	//get the pick id for a particular game
 	global $mysqli;
 	$sql = "select gameID ";
@@ -84,7 +102,8 @@ function getGameIDByTeamName($week, $teamName) {
 	die('Error getting game id: ' . $mysqli->error);
 }
 
-function getGameIDByTeamID($week, $teamID) {
+function getGameIDByTeamID($week, $teamID)
+{
 	//get the pick id for a particular game
 	global $mysqli;
 	$sql = "select gameID ";
@@ -105,7 +124,8 @@ function getGameIDByTeamID($week, $teamID) {
 	die('Error getting game id: ' . $mysqli->error);
 }
 
-function getUserPicks($week, $userID) {
+function getUserPicks($week, $userID)
+{
 	//gets user picks for a given week
 	global $mysqli;
 	$picks = array();
@@ -121,7 +141,26 @@ function getUserPicks($week, $userID) {
 	return $picks;
 }
 
-function getUserScore($week, $userID) {
+function get_pick_summary($user, $week)
+{
+	global $mysqli;
+
+	$sql = "select * from " . DB_PREFIX . "picksummary where weekNum = " . $week . " and userID = " . $user . ";";
+	$query = $mysqli->query($sql);
+	if ($query->num_rows > 0) {
+		$pickSummary = $query->fetch_assoc();
+	} else {
+		$pickSummary['weekNum'] = $week;
+		$pickSummary['userID'] = $user;
+		$pickSummary['showPicks'] = 1;
+		$pickSummary['bestBet'] = 0;
+	}
+
+	return $pickSummary;
+}
+
+function getUserScore($week, $userID)
+{
 	global $mysqli, $user;
 
 	$score = 0;
@@ -162,7 +201,8 @@ function getUserScore($week, $userID) {
 	return $score;
 }
 
-function getGameTotal($week) {
+function getGameTotal($week)
+{
 	//get the total number of games for a given week
 	global $mysqli;
 	$sql = "select count(gameID) as gameTotal from " . DB_PREFIX . "schedule where weekNum = " . $week;
@@ -175,7 +215,8 @@ function getGameTotal($week) {
 	die('Error getting game total: ' . $mysqli->error);
 }
 
-function gameIsLocked($gameID) {
+function gameIsLocked($gameID)
+{
 	//find out if a game is locked
 	global $mysqli, $cutoffDateTime;
 	$sql = "select (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > gameTimeEastern or DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > '" . $cutoffDateTime . "')  as expired from " . DB_PREFIX . "schedule where gameID = " . $gameID;
@@ -188,7 +229,8 @@ function gameIsLocked($gameID) {
 	die('Error getting game locked status: ' . $mysqli->error);
 }
 
-function hidePicks($userID, $week) {
+function hidePicks($userID, $week)
+{
 	//find out if user is hiding picks for a given week
 	global $mysqli;
 	$sql = "select showPicks from " . DB_PREFIX . "picksummary where userID = " . $userID . " and weekNum = " . $week;
@@ -201,7 +243,8 @@ function hidePicks($userID, $week) {
 	return 0;
 }
 
-function getLastCompletedWeek() {
+function getLastCompletedWeek()
+{
 	global $mysqli;
 	$lastCompletedWeek = 0;
 	$sql = "select s.weekNum, max(s.gameTimeEastern) as lastGameTime,";
@@ -221,7 +264,8 @@ function getLastCompletedWeek() {
 	return $lastCompletedWeek;
 }
 
-function calculateStats() {
+function calculateStats()
+{
 	global $mysqli, $weekStats, $playerTotals, $possibleScoreTotal;
 	//get latest week with all entered scores
 	$lastCompletedWeek = getLastCompletedWeek();
@@ -287,7 +331,8 @@ function calculateStats() {
 	}
 }
 
-function rteSafe($strText) {
+function rteSafe($strText)
+{
 	//returns safe code for preloading in the RTE
 	$tmpString = $strText;
 
@@ -309,21 +354,22 @@ function rteSafe($strText) {
 }
 
 //the following function was found at http://www.codingforums.com/showthread.php?t=71904
-function sort2d ($array, $index, $order='asc', $natsort=FALSE, $case_sensitive=FALSE) {
+function sort2d($array, $index, $order='asc', $natsort=FALSE, $case_sensitive=FALSE)
+{
 	if (is_array($array) && count($array) > 0) {
 		foreach(array_keys($array) as $key) {
-			$temp[$key]=$array[$key][$index];
+			$temp[$key] = $array[$key][$index];
 		}
-		if(!$natsort) {
-			($order=='asc')? asort($temp) : arsort($temp);
+		if (!$natsort) {
+			($order == 'asc') ? asort($temp) : arsort($temp);
 		} else {
-			($case_sensitive)? natsort($temp) : natcasesort($temp);
-			if($order!='asc') {
-				$temp=array_reverse($temp,TRUE);
+			($case_sensitive) ? natsort($temp) : natcasesort($temp);
+			if ($order != 'asc') {
+				$temp = array_reverse($temp, TRUE);
 			}
 		}
-		foreach(array_keys($temp) as $key) {
-			(is_numeric($key))? $sorted[]=$array[$key] : $sorted[$key]=$array[$key];
+		foreach (array_keys($temp) as $key) {
+			(is_numeric($key)) ? $sorted[] = $array[$key] : $sorted[$key] = $array[$key];
 		}
 		return $sorted;
 	}

@@ -1,5 +1,6 @@
 # NOTICE
-*4/16/2018 - The application is no longer maintained. I made this fork in Sept. 2020 to reflect some of the updates I had made since the original maintenance had stopped*
+*4/16/2018 - The application is no longer maintained by it's original owner.*
+*9/9/2020 - I made this fork in Sept. 2020 to reflect some of the updates I had made (and taken from DonThorntonJr's fork) since the original maintenance had stopped*
 
 ---
 
@@ -12,7 +13,6 @@ PHP Pick 'Em is a free php web application that allows you to host a weekly NFL 
 * PHP version 5.2 or greater
 * MySQL version 5.0 or greater with mysqli enabled
 * Mcrypt module for password encryption
-
 
 ## Installation Instructions
 

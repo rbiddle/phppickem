@@ -2,6 +2,7 @@
 header("Refresh: 300;url='results.php'");
 
 require('includes/application_top.php');
+require_once('includes/functions.php');
 
 $week = (int)$_GET['week'];
 if (empty($week)) {
@@ -10,7 +11,7 @@ if (empty($week)) {
 }
 
 $cutoffDateTime = getCutoffDateTime($week);
-$weekExpired = ((date("U", time()+(SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($cutoffDateTime)) ? 1 : 0);
+$weekExpired = ((date("U", time() + (SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($cutoffDateTime)) ? 1 : 0);
 
 include('includes/header.php');
 
