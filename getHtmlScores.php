@@ -9,16 +9,13 @@ if ($_GET['execute'] != 1) {
 
 $week = (int)$_GET['week'];
 if (empty($week)) {
-	//get current week
-	$week = (int)getCurrentWeek();
+	$week = (int)getCurrentWeek(); //get current week
 }
 
 //load source code, depending on the current week, of the website into a variable as a string
 $url = "http://static.nfl.com/ajax/scorestrip?season=".SEASON_YEAR."&seasonType=REG&week=".$week;
-//$url = "http://www.nfl.com/liveupdate/scorestrip/ss.xml";
 
-print $url;
-print "</br>";
+echo $url . '</br>';
 
 if ($xmlData = file_get_contents($url)) {
 	$xml = simplexml_load_string($xmlData);
@@ -33,8 +30,6 @@ if (empty($week)) {
 	$week = $gms['w'];
 }
 echo "Week: " . $week . "<br />";
-
-print_r($games);
 
 //build scores array, to group teams and scores together in games
 $scores = array();
@@ -83,8 +78,8 @@ foreach ($games['gms']['g'] as $gameArray) {
 
 	$winner = ($away_score > $home_score) ? $away_team : $home_team;
 
-//        if ($home_team == "LA") $home_team="LAR";
-//        if ($away_team == "LA") $away_team="LAR";
+    if ($home_team == "LA") $home_team="LAR";
+    if ($away_team == "LA") $away_team="LAR";
 
 	$gameID = getGameIDByTeamID($week, $home_team);
 		if (is_numeric(strip_tags($home_score)) && is_numeric(strip_tags($away_score))) {
@@ -104,10 +99,6 @@ foreach ($games['gms']['g'] as $gameArray) {
 	}
 }
 
-//see how the scores array looks
-//echo '<pre>' . print_r($scores, true) . '</pre>';
-echo json_encode($scores);
-
 //game results and winning teams can now be accessed from the scores array
 //e.g. $scores[0]['awayteam'] contains the name of the away team (['awayteam'] part) from the first game on the page ([0] part)
 
@@ -123,11 +114,10 @@ if(BATCH_SCORE_UPDATE_ENABLED && !empty($_GET['BATCH_SCORE_UPDATE_KEY']) && $_GE
 		if ($_GET['execute'] == 1) {
 			$mysqli->query($sql) or die('Error updating score: ' . $mysqli->error);
 		}
-		echo $sql . '<BR>';
+		echo $game['hometeam'] . ' hosting ' . $game['awayteam'] . ' => ' . $sql . '<br />';
 	}
 }
-if ($_GET['execute'] != 1) {
-	print "<a href=\"http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef&execute=1\">Execute?</a>";
-} else {
-	print "<a href=\"http://ourfootballpicks.com/results.php\">Results</a>";
-}
+//see how the scores array looks for debugging
+echo '<hr /><strong>Scores:</strong><br/><pre>' . print_r($scores, true) . '</pre>';
+echo '<hr /><strong>Raw Data:</strong><br/><pre>' . print_r($games, true) . '</pre>';
+//echo json_encode($scores);
