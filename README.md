@@ -13,7 +13,6 @@ PHP Pick 'Em is a free php web application that allows you to host a weekly NFL 
 
 * PHP version 5.2 or greater
 * MySQL version 5.0 or greater with mysqli enabled
-* Mcrypt module for password encryption
 
 ## Installation Instructions
 
@@ -28,4 +27,4 @@ PHP Pick 'Em is a free php web application that allows you to host a weekly NFL 
 Log in for the first time with admin / admin123.  You may change your password once you are logged in.
 
 ## Troubleshooting
-For help, please visit: http://www.phppickem.com/
+For help, please log an issue on this project and I'll try to respond.
