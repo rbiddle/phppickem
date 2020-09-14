@@ -16,10 +16,25 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
   exit('This file can not be accessed directly...');
 }
 
+set_include_path(get_include_path() . PATH_SEPARATOR . 'includes/classes/phpseclib');
+include('mcrypt.php');
+include('Crypt/Common/SymmetricKey.php');
+include('Crypt/Common/BlockCipher.php');
+include('Crypt/DES.php');
+include('Crypt/Common/StreamCipher.php');
+include('Crypt/Rijndael.php');
+include('Crypt/Twofish.php');
+include('Crypt/Blowfish.php');
+include('Crypt/TripleDES.php');
+include('Crypt/RC2.php');
+include('Crypt/RC4.php');
+include('Crypt/Random.php');
+
+
 class phpFreaksCrypto
 {
 
-  var $td;
+  //var $td;
 
   // this gets called when class is instantiated
   // function phpFreaksCrypto($key = 'a843l?nv89rjfd}O(jdnsleken0', $iv = false, $algorithm = 'tripledes', $mode = 'ecb')
@@ -30,7 +45,7 @@ class phpFreaksCrypto
     {
       //$prefix = (PHP_SHLIB_SUFFIX == 'dll') ? 'php_' : '';
       //dl($prefix . 'mcrypt.' . PHP_SHLIB_SUFFIX) or die('The Mcrypt module could not be loaded.');
-      die('The Mcrypt module is not loaded and is required.');
+//      die('The Mcrypt module is not loaded and is required.');
     }
 
     if($mode != 'ecb' && $iv === false)
@@ -89,10 +104,10 @@ class phpFreaksCrypto
   function __destruct()
   {
     // shutdown mcrypt
-    mcrypt_generic_deinit($this->td);
+//    mcrypt_generic_deinit($this->td);
 
     // close mcrypt cipher module
-    mcrypt_module_close($this->td);
+//    mcrypt_module_close($this->td);
   }
 
 }

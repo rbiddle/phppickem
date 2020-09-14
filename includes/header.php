@@ -61,12 +61,12 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 									</ul>
 								</li>
 								<?php if ($_SESSION['logged'] === 'yes' && $user->is_admin) { ?>
-								<li><a href="http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef">Auto-Update Scores</a></li>
+								<li><a href="getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=<?php echo BATCH_SCORE_UPDATE_KEY; ?>">Auto-Update Scores</a></li>
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><a href="scores.php">Enter Scores</a></li>
-										<li><a href="http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef">Auto-Update Scores</a></li>
+										<li><a href="getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=<?php echo BATCH_SCORE_UPDATE_KEY; ?>">Auto-Update Scores</a></li>
 										<li><a href="send_email.php">Send Email</a></li>
 										<li><a href="users.php">Update Users</a></li>
 										<li><a href="schedule_edit.php">Edit Schedule</a></li>

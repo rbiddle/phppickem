@@ -2,9 +2,9 @@
 require('includes/application_top.php');
 
 if ($_GET['execute'] != 1) {
-	print "<a href=\"http://ourfootballpicks.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=1234567890abcdef&execute=1\">Execute?</a></br></br>";
+	print "<a href=\"getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=" . BATCH_SCORE_UPDATE_KEY . "&execute=1\">Execute?</a></br></br>";
 } else {
-	print "<a href=\"http://ourfootballpicks.com/results.php\">Results</a></br></br>";
+	print "<a href=\"results.php\">Results</a></br></br>";
 }
 
 $week = (int)$_GET['week'];

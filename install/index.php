@@ -36,7 +36,7 @@ switch ($step) {
 		* Version: 0.1
 		*/
 
-		// Name of the file
+		// Name of the file for core install
 		$filename = 'install.sql';
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,6 +62,33 @@ switch ($step) {
 				}
 			}
 		}
+		
+		// Name of the file for season install
+		$filename = '../docs/nflp_schedule_'.SEASON_YEAR.'.sql';
+
+		// Temporary variable, used to store current query
+		$templine = '';
+		// Read in entire file
+		$lines = file($filename);
+		// Loop through each line
+		foreach ($lines as $line_num => $line) {
+			// Only continue if it's not a comment
+			if (substr($line, 0, 2) != '--' && $line != '') {
+				// Add this line to the current segment
+				$templine .= $line;
+				// If it has a semicolon at the end, it's the end of the query
+				if (substr(trim($line), -1, 1) == ';') {
+					// Perform the query
+					$templine = str_replace('nflp_', DB_PREFIX, $templine);
+					if (!$mysqli->query($templine)) {
+						$errors[] = '<p>Error performing query \'<b>' . $templine . '</b>\': ' . $mysqli->error . '</p>';
+					}
+					// Reset temp variable to empty
+					$templine = '';
+				}
+			}
+		}
+		
 		if (sizeof($errors) > 0) {
 			//we have errors, display
 ?>

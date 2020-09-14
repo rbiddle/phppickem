@@ -7,7 +7,7 @@ define('DB_PASSWORD', 'dbpass');
 define('DB_DATABASE', 'nflpickem');
 define('DB_PREFIX', 'nflp_');
 
-define('SITE_URL', 'http://localhost/personal/applications/phppickem/');
+define('SITE_URL', 'http://phppickem/');
 define('ALLOW_SIGNUP', true);
 define('SHOW_SIGNUP_LINK', true);
 define('USER_NAMES_DISPLAY', 3); // 1 = real names, 2 = usernames, 3 = usernames w/ real names on hover
