@@ -41,22 +41,6 @@ class phpFreaksCrypto
   function __construct($key = 'a843l?nv89rjfd}O(jdnsleken0', $iv = false, $algorithm = 'tripledes', $mode = 'ecb')
   {
 
-    if(extension_loaded('mcrypt') === FALSE)
-    {
-      //$prefix = (PHP_SHLIB_SUFFIX == 'dll') ? 'php_' : '';
-      //dl($prefix . 'mcrypt.' . PHP_SHLIB_SUFFIX) or die('The Mcrypt module could not be loaded.');
-//      die('The Mcrypt module is not loaded and is required.');
-    }
-
-    if($mode != 'ecb' && $iv === false)
-    {
-      /*
-        the iv must remain the same from encryption to decryption and is usually
-        passed into the encrypted string in some form, but not always.
-      */
-      die('In order to use encryption modes other then ecb, you must specify a unique and consistent initialization vector.');
-    }
-
     // set mcrypt mode and cipher
     $this->td = mcrypt_module_open($algorithm, '', $mode, '') ;
 
@@ -104,10 +88,10 @@ class phpFreaksCrypto
   function __destruct()
   {
     // shutdown mcrypt
-//    mcrypt_generic_deinit($this->td);
+    mcrypt_generic_deinit($this->td);
 
     // close mcrypt cipher module
-//    mcrypt_module_close($this->td);
+    mcrypt_module_close($this->td);
   }
 
 }
