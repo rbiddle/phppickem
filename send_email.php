@@ -99,7 +99,7 @@ if ($_POST['action'] == 'Select' && isset($_POST['cannedMsg'])) {
 
 	//replace variables
 	$template_vars = array('{week}', '{first_game}', '{site_url}', '{rules_url}', '{winners}', '{previousWeek}', '{winningScore}', '{possibleScore}', '{currentLeaders}', '{bestPickRatios}');
-	$replacement_values = array($week, date('l F j, g:i a', strtotime($firstGameTime)), SITE_URL, SITE_URL . 'rules.php', $winners, $prevWeek, $weekStats[$prevWeek][highestScore], getGameTotal($prevWeek), $currentLeaders, $bestPickRatios);
+	$replacement_values = array($week, date('l F j, g:i a', strtotime($firstGameTime)), SITE_URL, SITE_URL . 'rules.php', $winners, $prevWeek, $weekStats[$prevWeek]['highestScore'], getGameTotal($prevWeek), $currentLeaders, $bestPickRatios);
 	$subject = stripslashes(str_replace($template_vars, $replacement_values, $subjectTemplate));
 	$message = stripslashes(str_replace($template_vars, $replacement_values, $messageTemplate));
 }
