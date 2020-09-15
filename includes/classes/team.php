@@ -12,20 +12,9 @@ class team {
 	var $teamName = '';
 
 	// Class constructor
-/*
-	function team($teamID) {
-		return $this->getTeam($teamID);
-	}
-*/
-// fix per: https://cweiske.de/tagebuch/php4-constructors-php7.htm
 	public function __construct($teamID)
 	{
 		return $this->getTeam($teamID);
-	}
-
-	public function team($teamID)
-	{
-		self::__construct($teamID);
 	}
 
 	function getTeam($teamID) {

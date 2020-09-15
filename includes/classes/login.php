@@ -1,14 +1,8 @@
 <?php
 class Login{
-	// function Login(){
 	function __construct()
 	{
 	}
-	public function Login()
-	{
-		self::__construct();
-	}
-
 
 	function new_user($user_name, $password, $confirm) {
 		global $crypto;
