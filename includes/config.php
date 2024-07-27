@@ -2,10 +2,10 @@
 //modify vars below
 // Database
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'phppicks');
-define('DB_PASSWORD', 'phppickemuser');
+define('DB_USERNAME', 'phppicksuser');
+define('DB_PASSWORD', 'phppickspass');
 define('DB_DATABASE', 'phppicks');
-define('DB_PREFIX', 'nflp_');
+define('DB_PREFIX', 'phppicks_');
 
 define('SITE_URL', '/');   //use either http or https
 //define('SITE_URL', 'https://ourfootballpicks.com/');
@@ -17,7 +17,7 @@ define('DISQUS_SHORTNAME', ''); // only needed if using Disqus for comments
 
 define('ALWAYS_HIDE_PICKS', true); // Set to true to hide picks until games are locked out
 
-define('SITE_NAME', "Henderson/Biddle NFL Pick 'Em");
+define('SITE_NAME', "NFL Pick 'Em");
 define('SEASON_YEAR', '2025');
 define('SERVER_TIMEZONE', 'America/Chicago'); // Your SERVER's timezone. NOTE: Game times will always be displayed in Eastern time, as they are on NFL.com. This setting makes sure cutoff times work properly.
 
