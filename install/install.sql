@@ -125,6 +125,7 @@ CREATE TABLE `nflp_schedule` (
   `visitorID` varchar(10) NOT NULL,
   `visitorScore` int(11) DEFAULT NULL,
   `overtime` tinyint(1) NOT NULL DEFAULT '0',
+  `scores_timeStamp` datetime DEFAULT NULL,
   `final` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
