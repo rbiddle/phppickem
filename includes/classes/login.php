@@ -59,7 +59,7 @@ class Login{
 			$user_info = $query->fetch_object() or die('Mysql error: '.$mysqli->error.', $sql: '.$sql);
 			return $user_info;
 		}
-		$query->free;
+		$query->free();
 		return false;
 	}
 
@@ -68,7 +68,7 @@ class Login{
 		$sql = "SELECT * FROM " . DB_PREFIX . "users WHERE userID = '" . $user_id . "' and status = 1";
 		$query = $mysqli->query($sql);
 		$user_info = $query->fetch_object();
-		$query->free;
+		$query->free();
 		return $user_info;
 	}
 

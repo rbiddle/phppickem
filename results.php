@@ -29,7 +29,7 @@ while ($row = $query->fetch_assoc()) {
 	}
 	$i++;
 }
-$query->free;
+$query->free();
 $weekNav .= '</div>' . "\n";
 echo $weekNav;
 
@@ -84,6 +84,7 @@ $query = $mysqli->query($sql);
 $i = 0;
 while ($row = $query->fetch_assoc()) {
 	$playerPicks[$row['userID']][$row['gameID']] = $row['pickID'];
+	if(!isset($playerTotals[$row['userID']])) {$playerTotals[$row['userID']] = 0;}
 	if (!empty($games[$row['gameID']]['winnerID']) && $row['pickID'] == $games[$row['gameID']]['winnerID']) {
 		//player has picked the winning team
 		$playerTotals[$row['userID']] += 1;
@@ -92,7 +93,7 @@ while ($row = $query->fetch_assoc()) {
 	}
 	$i++;
 }
-$query->free;
+$query->free();
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -218,13 +219,14 @@ if (sizeof($playerTotals) > 0) {
 		//loop through all games
 		foreach($games as $game) {
 			$pick = '';
-			$pick = $playerPicks[$userID][$game['gameID']];
+			if(isset($playerPicks[$userID][$game['gameID']])){$pick=$playerPicks[$userID][$game['gameID']];}
 			// dtjr
-			$score = $game[$pick]['score'] ;
+if(isset($game[$pick]['score'])){$score=$game[$pick]['score'];} else {$score=0;}
+//$score = $game[$pick]['score'] ;
 			// dtjr
 			if (!empty($game['winnerID'])) {
 				//score has been entered
-				if ($playerPicks[$userID][$game['gameID']] == $game['winnerID']) {
+				if (isset($playerPicks[$userID][$game['gameID']]) && ($playerPicks[$userID][$game['gameID']] == $game['winnerID'])) {
 					$pick = '<span class="winner">' . $pick . '</span>';
 				}
 			} else {
@@ -242,6 +244,7 @@ if (sizeof($playerTotals) > 0) {
 	}
 
 	//if all scores entered, display winner
+	$winnersHtml = "";
 	if ($allScoresIn) {
 		foreach($winners as $winnerID) {
 			$winner = $login->get_user_by_id($winnerID);
@@ -288,7 +291,7 @@ if (sizeof($playerTotals) > 0) {
 		}
 		echo $absentHtml;
 	}
-	$query->free;
+	$query->free();
 }
 
 // dtjr

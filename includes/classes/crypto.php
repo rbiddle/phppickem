@@ -82,10 +82,10 @@ class phpFreaksCrypto
   function __destruct()
   {
     // shutdown mcrypt
-    mcrypt_generic_deinit($this->td);
+    //mcrypt_generic_deinit($this->td);
 
     // close mcrypt cipher module
-    mcrypt_module_close($this->td);
+    //mcrypt_module_close($this->td);
   }
 
 }

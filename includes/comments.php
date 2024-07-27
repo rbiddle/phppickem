@@ -1,4 +1,5 @@
 <?php
+if(!isset($_POST['action'])) {$_POST['action']="";}
 if (COMMENTS_SYSTEM == 'basic' && $_POST['action'] == 'Add Comment') {
 	//if user has not submitted within the last 15 seconds
 	$sql = "select * from " . DB_PREFIX . "comments where userID = " . $user->userID . " and subject = '" . $mysqli->real_escape_string($_POST['subject']) . "' and postDateTime > date_add(now(), INTERVAL -15 SECOND)";
@@ -50,7 +51,7 @@ if (COMMENTS_SYSTEM == 'basic') {
 		}
 		echo '<p>' . nl2br(trim($row['comment'])) . '</p>' . "\n";
 	}
-	$query->free;
+	$query->free();
 } else if (COMMENTS_SYSTEM == 'disqus') {
 ?>
  <div id="disqus_thread"></div>

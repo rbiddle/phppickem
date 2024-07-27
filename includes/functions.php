@@ -4,7 +4,7 @@ function getCurrentWeek()
 {
 	//get the current week number
 	global $mysqli;
-	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) < gameTimeEastern order by weekNum limit 1";
+	$sql = "select distinct weekNum from " . DB_PREFIX . "schedule where DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . "-24 HOUR) < gameTimeEastern order by weekNum limit 1";
 	$query = $mysqli->query($sql);
 	if ($query->num_rows > 0) {
 		$row = $query->fetch_assoc();
@@ -47,7 +47,7 @@ function getCutoffDateTime($week)
 		$row = $query->fetch_assoc();
 		return $row['gameTimeEastern'];
 	}
-	$query->free;
+	$query->free();
 	die('Error getting cutoff date: ' . $mysqli->error);
 }
 
@@ -61,7 +61,7 @@ function getFirstGameTime($week)
 		$row = $query->fetch_assoc();
 		return $row['gameTimeEastern'];
 	}
-	$query->free;
+	$query->free();
 	die('Error getting first game time: ' . $mysqli->error);
 }
 
@@ -77,7 +77,7 @@ function getPickID($gameID, $userID)
 	} else {
 		return false;
 	}
-	$query->free;
+	$query->free();
 	die('Error getting pick id: ' . $mysqli->error);
 }
 
@@ -98,7 +98,7 @@ function getGameIDByTeamName($week, $teamName)
 	} else {
 		return false;
 	}
-	$query->free;
+	$query->free();
 	die('Error getting game id: ' . $mysqli->error);
 }
 
@@ -120,7 +120,7 @@ function getGameIDByTeamID($week, $teamID)
 	} else {
 		return false;
 	}
-	$query->free;
+	$query->free();
 	die('Error getting game id: ' . $mysqli->error);
 }
 
@@ -137,7 +137,7 @@ function getUserPicks($week, $userID)
 	while ($row = $query->fetch_assoc()) {
 		$picks[$row['gameID']] = array('pickID' => $row['pickID'], 'points' => $row['points']);
 	}
-	$query->free;
+	$query->free();
 	return $picks;
 }
 
@@ -180,7 +180,7 @@ function getUserScore($week, $userID)
 			$games[$row['gameID']]['winnerID'] = $row['visitorID'];
 		}
 	}
-	$query->free;
+	$query->free();
 
 	//loop through player picks & calculate score
 	$sql = "select p.userID, p.gameID, p.pickID, p.points ";
@@ -196,7 +196,7 @@ function getUserScore($week, $userID)
 			$score++;
 		}
 	}
-	$query->free;
+	$query->free();
 
 	return $score;
 }
@@ -211,7 +211,7 @@ function getGameTotal($week)
 		$row = $query->fetch_assoc();
 		return $row['gameTotal'];
 	}
-	$query->free;
+	$query->free();
 	die('Error getting game total: ' . $mysqli->error);
 }
 
@@ -225,7 +225,7 @@ function gameIsLocked($gameID)
 		$row = $query->fetch_assoc();
 		return $row['expired'];
 	}
-	$query->free;
+	$query->free();
 	die('Error getting game locked status: ' . $mysqli->error);
 }
 
@@ -239,7 +239,7 @@ function hidePicks($userID, $week)
 		$row = $query->fetch_assoc();
 		return (($row['showPicks']) ? 0 : 1);
 	}
-	$query->free;
+	$query->free();
 	return 0;
 }
 
@@ -260,7 +260,7 @@ function getLastCompletedWeek()
 			$lastCompletedWeek = (int)$row['weekNum'];
 		}
 	}
-	$query->free;
+	$query->free();
 	return $lastCompletedWeek;
 }
 
@@ -269,7 +269,7 @@ function calculateStats()
 	global $mysqli, $weekStats, $playerTotals, $possibleScoreTotal;
 	//get latest week with all entered scores
 	$lastCompletedWeek = getLastCompletedWeek();
-
+echo $lastCompletedWeek;
 	//loop through weeks
 	for ($week = 1; $week <= $lastCompletedWeek; $week++) {
 		//get array of games
@@ -287,7 +287,7 @@ function calculateStats()
 				$games[$row['gameID']]['winnerID'] = $row['visitorID'];
 			}
 		}
-		$query->free;
+		$query->free();
 
 		//get array of player picks
 		$playerPicks = array();
@@ -300,34 +300,37 @@ function calculateStats()
 		$sql .= "order by u.lastname, u.firstname, s.gameTimeEastern";
 		$query = $mysqli->query($sql);
 		while ($row = $query->fetch_assoc()) {
+if(!isset($playerWeeklyTotals[$row['userID']]['score'])) {$playerWeeklyTotals[$row['userID']]['score'] = 0;}
+if(!isset($playerTotals[$row['userID']]['score'])) {$playerTotals[$row['userID']]['score'] = 0;}
+if(!isset($playerTotals[$row['userID']]['wins'])) {$playerTotals[$row['userID']]['wins'] = 0;}
 			$playerPicks[$row['userID'] . $row['gameID']] = $row['pickID'];
-			$playerWeeklyTotals[$row['userID']][week] = $week;
-			$playerTotals[$row['userID']][wins] += 0;
-			$playerTotals[$row['userID']][name] = $row['firstname'] . ' ' . $row['lastname'];
-			$playerTotals[$row['userID']][userName] = $row['userName'];
+			$playerWeeklyTotals[$row['userID']]['week'] = $week;
+			$playerTotals[$row['userID']]['wins'] += 0;
+			$playerTotals[$row['userID']]['name'] = $row['firstname'] . ' ' . $row['lastname'];
+			$playerTotals[$row['userID']]['userName'] = $row['userName'];
 			if (!empty($games[$row['gameID']]['winnerID']) && $row['pickID'] == $games[$row['gameID']]['winnerID']) {
 				//player has picked the winning team
-				$playerWeeklyTotals[$row['userID']][score] += 1;
-				$playerTotals[$row['userID']][score] += 1;
+				$playerWeeklyTotals[$row['userID']]['score'] += 1;
+				$playerTotals[$row['userID']]['score'] += 1;
 			} else {
-				$playerWeeklyTotals[$row['userID']][score] += 0;
-				$playerTotals[$row['userID']][score] += 0;
+				$playerWeeklyTotals[$row['userID']]['score'] += 0;
+				$playerTotals[$row['userID']]['score'] += 0;
 			}
 		}
-		$query->free;
+		$query->free();
 
 		//get winners & highest score for current week
 		$highestScore = 0;
 		arsort($playerWeeklyTotals);
 		foreach($playerWeeklyTotals as $playerID => $stats) {
-			if ($stats[score] > $highestScore) $highestScore = $stats[score];
-			if ($stats[score] < $highestScore) break;
-			$weekStats[$week][winners][] = $playerID;
-			$playerTotals[$playerID][wins] += 1;
+			if ($stats['score'] > $highestScore) $highestScore = $stats['score'];
+			if ($stats['score'] < $highestScore) break;
+			$weekStats[$week]['winners'][] = $playerID;
+			$playerTotals[$playerID]['wins'] += 1;
 		}
-		$weekStats[$week][highestScore] = $highestScore;
-		$weekStats[$week][possibleScore] = getGameTotal($week);
-		$possibleScoreTotal += $weekStats[$week][possibleScore];
+		$weekStats[$week]['highestScore'] = $highestScore;
+		$weekStats[$week]['possibleScore'] = getGameTotal($week);
+		$possibleScoreTotal += $weekStats[$week]['possibleScore'];
 	}
 }
 
@@ -408,7 +411,7 @@ function getTeamRecord($teamID) {
 	} else {
 		return '';
 	}
-	$query->free;
+	$query->free();
 }
 
 function getTeamStreak($teamID) {
@@ -448,5 +451,5 @@ function getTeamStreak($teamID) {
 	} else {
 		return '';
 	}
-	$query->free;
+	$query->free();
 }

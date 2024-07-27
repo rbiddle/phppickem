@@ -18,8 +18,8 @@ if (isset($weekStats)) {
 	$i = 0;
 	foreach($weekStats as $week => $stats) {
 		$winners = '';
-		if (is_array($stats[winners])) {
-			foreach($stats[winners] as $winner => $winnerID) {
+		if (is_array($stats['winners'])) {
+			foreach($stats['winners'] as $winner => $winnerID) {
 				$tmpUser = $login->get_user_by_id($winnerID);
 				switch (USER_NAMES_DISPLAY) {
 					case 1:
@@ -35,7 +35,7 @@ if (isset($weekStats)) {
 			}
 		}
 		$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
-		echo '	<tr' . $rowclass . '><td>' . $week . '</td><td>' . $winners . '</td><td align="center">' . $stats[highestScore] . '/' . $stats[possibleScore] . '</td></tr>';
+		echo '	<tr' . $rowclass . '><td>' . $week . '</td><td>' . $winners . '</td><td align="center">' . $stats['highestScore'] . '/' . $stats['possibleScore'] . '</td></tr>';
 		$i++;
 	}
 } else {
@@ -58,17 +58,17 @@ if (isset($weekStats)) {
 				$i = 0;
 				foreach($playerTotals as $playerID => $stats) {
 					$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
-					$pickRatio = $stats[score] . '/' . $possibleScoreTotal;
-					$pickPercentage = number_format((($stats[score] / $possibleScoreTotal) * 100), 2) . '%';
+					$pickRatio = $stats['score'] . '/' . $possibleScoreTotal;
+					$pickPercentage = number_format((($stats['score'] / $possibleScoreTotal) * 100), 2) . '%';
 					switch (USER_NAMES_DISPLAY) {
 						case 1:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[name] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['name'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						case 2:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[userName] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['userName'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						default: //3
-							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats[name] . '">' . $stats[userName] . '<abbr></td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats['name'] . '">' . $stats['userName'] . '<abbr></td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 					}
 					$i++;
@@ -91,17 +91,17 @@ if (isset($weekStats)) {
 				$i = 0;
 				foreach($playerTotals as $playerID => $stats) {
 					$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
-					$pickRatio = $stats[score] . '/' . $possibleScoreTotal;
-					$pickPercentage = number_format((($stats[score] / $possibleScoreTotal) * 100), 2) . '%';
+					$pickRatio = $stats['score'] . '/' . $possibleScoreTotal;
+					$pickPercentage = number_format((($stats['score'] / $possibleScoreTotal) * 100), 2) . '%';
 					switch (USER_NAMES_DISPLAY) {
 						case 1:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[name] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['name'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						case 2:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[userName] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['userName'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						default: //3
-							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats[name] . '">' . $stats[userName] . '</abbr></td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats['name'] . '">' . $stats['userName'] . '</abbr></td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 					}
 					$i++;
@@ -124,17 +124,17 @@ if (isset($weekStats)) {
 				$i = 0;
 				foreach($playerTotals as $playerID => $stats) {
 					$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
-					$pickRatio = $stats[score] . '/' . $possibleScoreTotal;
-					$pickPercentage = number_format((($stats[score] / $possibleScoreTotal) * 100), 2) . '%';
+					$pickRatio = $stats['score'] . '/' . $possibleScoreTotal;
+					$pickPercentage = number_format((($stats['score'] / $possibleScoreTotal) * 100), 2) . '%';
 					switch (USER_NAMES_DISPLAY) {
 						case 1:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[name] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['name'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						case 2:
-							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats[userName] . '</td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny">' . $stats['userName'] . '</td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 						default: //3
-							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats[name] . '">' . $stats[userName] . '</abbr></td><td class="tiny" align="center">' . $stats[wins] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
+							echo '	<tr' . $rowclass . '><td class="tiny"><abbr title="' . $stats['name'] . '">' . $stats['userName'] . '</abbr></td><td class="tiny" align="center">' . $stats['wins'] . '</td><td class="tiny" align="center">' . $pickRatio . ' (' . $pickPercentage . ')</td></tr>';
 							break;
 					}
 					$i++;

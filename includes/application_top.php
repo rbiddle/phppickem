@@ -11,6 +11,8 @@ $crypto = new phpFreaksCrypto;
 $purifier_config = HTMLPurifier_Config::createDefault();
 $purifier_config->set('Cache.DefinitionImpl', null); //turns off caching
 
+$warnings = [];
+
 //filter for cross-site scripting attacks
 $purifier = new HTMLPurifier($purifier_config);
 foreach($_POST as $key=>$value) {
