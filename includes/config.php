@@ -54,7 +54,15 @@ $offsetHours = ($offsetEastern - $offsetCurrent) / 3600;
 
 // hack for 2021-2022 b/c I loaded game times as CST instead of EST
 //define('SERVER_TIME`ZONE_OFFSET', $offsetHours);
-define('SERVER_TIMEZONE_OFFSET', $offsetHours - 1);
+//define('SERVER_TIMEZONE_OFFSET', $offsetHours - 1);
+//define('SERVER_TIMEZONE_OFFSET', $offsetHours - 0);
+
+//attempt to update for DST
+if (date('I')==1) {
+	define('SERVER_TIMEZONE_OFFSET', $offsetHours - 0);
+} else {
+	define('SERVER_TIMEZONE_OFFSET', $offsetHours - 1);
+}
 
 $theTime = time();
 //$theTime = 1705877492;

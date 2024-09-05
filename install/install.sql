@@ -183,7 +183,7 @@ INSERT INTO `nflp_teams` (`teamID`, `divisionID`, `city`, `team`, `displayName`)
 ('LAR', 8, 'Los Angeles', 'Rams', NULL),
 ('TB', 6, 'Tampa Bay', 'Buccaneers', NULL),
 ('TEN', 2, 'Tennessee', 'Titans', NULL),
-('WAS', 7, 'Washington', 'Football Team', NULL);
+('WSH', 7, 'Washington', 'Football Team', NULL);
 
 -- --------------------------------------------------------
 
