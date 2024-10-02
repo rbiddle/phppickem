@@ -2,10 +2,16 @@
 //modify vars below
 // Database
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'phppicksuser');
-define('DB_PASSWORD', 'phppickspass');
+define('DB_USERNAME', 'phppicks');
+define('DB_PASSWORD', 'pleasechangeme');
 define('DB_DATABASE', 'phppicks');
-define('DB_PREFIX', 'phppicks_');
+define('DB_PREFIX', 'nflp_');
+
+//email settings
+define('EMAIL_HOST', 'localhost');
+define('EMAIL_PORT', '25');
+define('EMAIL_USERNAME', 'notcurrentlyinuse');
+define('EMAIL_PASSWORD', 'notcurrentlyinuse');
 
 define('SITE_URL', '/');   //use either http or https
 //define('SITE_URL', 'https://ourfootballpicks.com/');
@@ -31,7 +37,7 @@ define('ENABLE_DONATE_FOOTER', false);
 //example:
 // curl -O 'http://www.yourdomain.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=yourRandomDefinedValueHere'
 // wget 'http://www.yourdomain.com/getHtmlScores.php?BATCH_SCORE_UPDATE_KEY=yourRandomDefinedValueHere'
-define('BATCH_SCORE_UPDATE_KEY', 'NOTREALLYINUSE');
+define('BATCH_SCORE_UPDATE_KEY', 'yourRandomDefinedValueHere');
 //enable or disable batch updates here
 define('BATCH_SCORE_UPDATE_ENABLED', true);
 
@@ -63,6 +69,7 @@ if (date('I')==1) {
 } else {
 	define('SERVER_TIMEZONE_OFFSET', $offsetHours - 1);
 }
+
 
 $theTime = time();
 //$theTime = 1705877492;

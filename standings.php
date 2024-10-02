@@ -87,7 +87,7 @@ if (isset($weekStats)) {
 				<tr><th align="left">Player</th><th align="left">Wins</th><th>Pick Ratio</th></tr>
 			<?php
 			if (isset($playerTotals)) {
-				arsort($playerTotals);
+				$playerTotals = sort2d($playerTotals, 'wins', 'desc');
 				$i = 0;
 				foreach($playerTotals as $playerID => $stats) {
 					$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
@@ -120,6 +120,7 @@ if (isset($weekStats)) {
 				<tr><th align="left">Player</th><th align="left">Wins</th><th>Pick Ratio</th></tr>
 			<?php
 			if (isset($playerTotals)) {
+				arsort($playerTotals);
 				$playerTotals = sort2d($playerTotals, 'score', 'desc');
 				$i = 0;
 				foreach($playerTotals as $playerID => $stats) {
@@ -152,4 +153,5 @@ if (isset($weekStats)) {
 include('includes/comments.php');
 
 include('includes/footer.php');
+//print_r($playerTotals);
 ?>

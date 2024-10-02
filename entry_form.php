@@ -122,7 +122,7 @@ include('includes/column_right.php');
 			</div>
 			<div id="content" class="col-md-8 col-xs-12">
 				<h2>Week <?php echo $week; ?> - Make Your Picks:</h2>
-				<p>Please make your picks below for each game.</p>
+				<p class="noprint">Please make your picks below for each game.</p>
 	<?php
 	//get existing picks
 	$picks = getUserPicks($week, $user->userID);

@@ -295,7 +295,7 @@ if(isset($game[$pick]['score'])){$score=$game[$pick]['score'];} else {$score=0;}
 }
 
 // dtjr
-//include('includes/column_stats.php');
+include('includes/column_stats.php');
 // dtjr
 
 include('includes/comments.php');

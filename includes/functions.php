@@ -16,9 +16,9 @@ function getCurrentWeek()
 			$row = $query2->fetch_assoc();
 			return $row['weekNum'];
 		}
-		$query2->free;
+		$query2->free();
 	}
-	$query->free;
+	$query->free();
 	die('Error getting current week: ' . $mysqli->error);
 }
 
@@ -269,7 +269,6 @@ function calculateStats()
 	global $mysqli, $weekStats, $playerTotals, $possibleScoreTotal;
 	//get latest week with all entered scores
 	$lastCompletedWeek = getLastCompletedWeek();
-echo $lastCompletedWeek;
 	//loop through weeks
 	for ($week = 1; $week <= $lastCompletedWeek; $week++) {
 		//get array of games
@@ -300,9 +299,9 @@ echo $lastCompletedWeek;
 		$sql .= "order by u.lastname, u.firstname, s.gameTimeEastern";
 		$query = $mysqli->query($sql);
 		while ($row = $query->fetch_assoc()) {
-if(!isset($playerWeeklyTotals[$row['userID']]['score'])) {$playerWeeklyTotals[$row['userID']]['score'] = 0;}
-if(!isset($playerTotals[$row['userID']]['score'])) {$playerTotals[$row['userID']]['score'] = 0;}
-if(!isset($playerTotals[$row['userID']]['wins'])) {$playerTotals[$row['userID']]['wins'] = 0;}
+			if(!isset($playerWeeklyTotals[$row['userID']]['score'])) {$playerWeeklyTotals[$row['userID']]['score'] = 0;}
+			if(!isset($playerTotals[$row['userID']]['score'])) {$playerTotals[$row['userID']]['score'] = 0;}
+			if(!isset($playerTotals[$row['userID']]['wins'])) {$playerTotals[$row['userID']]['wins'] = 0;}
 			$playerPicks[$row['userID'] . $row['gameID']] = $row['pickID'];
 			$playerWeeklyTotals[$row['userID']]['week'] = $week;
 			$playerTotals[$row['userID']]['wins'] += 0;
@@ -321,7 +320,7 @@ if(!isset($playerTotals[$row['userID']]['wins'])) {$playerTotals[$row['userID']]
 
 		//get winners & highest score for current week
 		$highestScore = 0;
-		arsort($playerWeeklyTotals);
+//		arsort($playerWeeklyTotals);
 		foreach($playerWeeklyTotals as $playerID => $stats) {
 			if ($stats['score'] > $highestScore) $highestScore = $stats['score'];
 			if ($stats['score'] < $highestScore) break;
@@ -331,7 +330,7 @@ if(!isset($playerTotals[$row['userID']]['wins'])) {$playerTotals[$row['userID']]
 		$weekStats[$week]['highestScore'] = $highestScore;
 		$weekStats[$week]['possibleScore'] = getGameTotal($week);
 		$possibleScoreTotal += $weekStats[$week]['possibleScore'];
-	}
+	} 
 }
 
 function rteSafe($strText)
