@@ -320,7 +320,7 @@ function calculateStats()
 
 		//get winners & highest score for current week
 		$highestScore = 0;
-//		arsort($playerWeeklyTotals);
+		arsort($playerWeeklyTotals);
 		foreach($playerWeeklyTotals as $playerID => $stats) {
 			if ($stats['score'] > $highestScore) $highestScore = $stats['score'];
 			if ($stats['score'] < $highestScore) break;
